@@ -2,9 +2,17 @@
 
 TBD
 
-## Development environment setup
+## Development environment
 
-TBD
+1. Clone the repo
+2. Run `npm i` to install dependencies.
+3. Run `npm run dev` to launch the local development instance.
+
+### Environment variables
+
+1. MongoDb: Create a MongoDb Atlas account (in the cloud) (https://account.mongodb.com/account/login) and copy the connection string. You can also create a local instance of mongodb. Add the connection string to this environment variable. See (https://www.mongodb.com/docs/manual/reference/connection-string/)
+
+`MONGODB_URI=`
 
 ## Our Team
 
