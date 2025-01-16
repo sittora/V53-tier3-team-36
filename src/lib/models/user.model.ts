@@ -5,6 +5,7 @@ import { User } from "../schemas/user.schema";
 const userSchema = new Schema<User>({
   email: { type: String, required: true },
   name: { type: String, required: true },
+  imageUrl: { type: String },
 });
 
 export const UserModel: mongoose.Model<User> =
