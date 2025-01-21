@@ -1,6 +1,6 @@
 const socialLinks = (name: string, github: string, linkedin: string) => {
   return (
-    <div className="flex">
+    <div className="flex justify-center">
       <span>{name}</span>
       <div className="flex items-center">
         <a href={github} target="_blank" className="text-gray-400 hover:text-gray-900 dark:hover:text-white pl-2">
@@ -26,10 +26,10 @@ export default function Footer({}) {
       <div className="mx-auto w-full max-w-screen-xl">
         <div className="grid gap-8 px-4 py-6 lg:py-8 md:grid-cols-3 sm:grid-cols-1">
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white"><a href="/">Luminaria</a></h2>
+            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white text-center"><a href="/">Luminaria</a></h2>
           </div>
           <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Our Team</h2>
+              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white text-center">Our Team</h2>
               <ul className="text-gray-500 dark:text-gray-400 font-medium">
                   <li className="mb-4">
                       {socialLinks("David Eastmond", "https://github.com/davideastmond", "https://linkedin.com/in/david-eastmond-2783ab18a")}
@@ -52,12 +52,12 @@ export default function Footer({}) {
               </ul>
           </div>
           <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white text-center">
                 <a href="https://github.com/chingu-voyages/V53-tier3-team-36" target="_blank">Github</a>
               </h2>
           </div>
         </div>
-        <div className="px-4 pb-6 pt-1 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">
+        <div className="px-4 pb-6 pt-1 dark:bg-gray-700 md:flex md:items-center md:justify-between">
           <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2025 <a href="https://flowbite.com/">Luminaria</a>
           </span>
         </div>
