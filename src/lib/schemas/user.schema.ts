@@ -1,5 +1,12 @@
-export interface User {
-  email: string;
-  name: string;
-  imageUrl?: string;
-}
+import mongoose, { Schema } from "mongoose";
+import { User } from "../models/user.model";
+
+// TODO: this model should be expanded. This is just data to get started.
+const userSchema = new Schema<User>({
+  email: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  imageUrl: { type: String },
+});
+
+export const UserModel: mongoose.Model<User> =
+  mongoose.models.User || mongoose.model<User>("User", userSchema);
