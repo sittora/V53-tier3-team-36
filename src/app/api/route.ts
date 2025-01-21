@@ -1,5 +1,5 @@
-import { UserModel } from "@/lib/models/user.model";
 import connectDb from "@/lib/mongodb/mongodb";
+import { UserModel } from "@/lib/schemas/user.schema";
 import { NextResponse } from "next/server";
 
 // This is placehodler data.
