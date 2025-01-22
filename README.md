@@ -10,9 +10,13 @@ TBD
 
 ### Environment variables
 
-1. MongoDb: Create a MongoDb Atlas account (in the cloud) (https://account.mongodb.com/account/login) and copy the connection string. You can also create a local instance of mongodb. Add the connection string to this environment variable. See (https://www.mongodb.com/docs/manual/reference/connection-string/)
+1. MongoDb: Create a MongoDb Atlas account (in the cloud) (https://account.mongodb.com/account/login) and copy the connection string. You can also create a local instance of mongodb. Add the connection string to this environment variable `MONGODB_URI`. See (https://www.mongodb.com/docs/manual/reference/connection-string/).
 
-`MONGODB_URI=`
+2. Authentication: In your Google Cloud Console, setup Google Auth. Follow these instructions [Google Cloud Console](https://developers.google.com/identity/protocols/oauth2) and [NextAuth](https://authjs.dev/getting-started/providers/google). Remember to create the appopriate environment variables.
+
+3. Follow a similar process to setup [Github w/ NextAuth](https://authjs.dev/getting-started/providers/github?framework=next-js). Remember to create the appopriate environment variables.
+
+4. Create a `AUTH_SECRET` environment variable and populate it with a string of your choosing. it's used with NextAuth to generate a secret. <br>
 
 ## Our Team
 
