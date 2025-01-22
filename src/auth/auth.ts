@@ -6,6 +6,9 @@ import Google, { GoogleProfile } from "next-auth/providers/google";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [Google, GitHub],
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     signIn: async ({ account, profile }) => {
       if (!profile) return false;
@@ -30,6 +33,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
 
       return true;
+    },
+    jwt: async ({ token }) => {
+      if (!token.email) throw new Error("No email found in token");
+      await connectDb();
+      const existingUser = await UserModel.findOne({ email: token.email });
+
+      token = {
+        ...token,
+        id: existingUser?._id.toString(),
+      };
+      return token;
+    },
+    session: async ({ session, token }) => {
+      session = {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id as string,
+        },
+      };
+      return session;
     },
   },
 });
