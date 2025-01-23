@@ -18,7 +18,7 @@ export const POST = auth(async function POST(req) {
 
   const requestBody = await req.json();
   try {
-    // Validate the request body. If it throws, return a 400 response
+    // Validate the request body.
     markReadValidator.parse(requestBody);
   } catch (error) {
     if (error instanceof ZodError) {
@@ -39,21 +39,19 @@ export const POST = auth(async function POST(req) {
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
-    const { read } = user;
-    read.push(olid);
-    user.read = Array.from(new Set(read));
 
-    // update or upsert the book collection
+    user.read = Array.from(new Set(user.read.concat(olid)));
+
     await upsertBookRead(olid, date, req.auth.user.id as string);
-
     await user.save();
+
     return NextResponse.json({
       message: `Success: title with olid: ${olid} was added to read list`,
     });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { message: "Failed to mark book as read" },
+      { error: "Failed to mark book as read" },
       { status: 500 }
     );
   }
@@ -86,7 +84,7 @@ export const PATCH = auth(async function PATCH(req) {
     // update the user's read list
     const user = await UserModel.findById(req.auth.user.id);
     if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const { read } = user;
@@ -99,16 +97,16 @@ export const PATCH = auth(async function PATCH(req) {
 
     if (!targetBook) {
       return NextResponse.json(
-        { message: "Book not found in database" },
+        { error: "Book not found in database" },
         { status: 404 }
       );
     }
 
-    const { readBy } = targetBook;
-    readBy.delete(req.auth.user.id as string); // Remove the key-value pair of the user
+    targetBook.readBy.delete(req.auth.user.id as string); // Remove the key-value pair of the user
 
     await targetBook.save();
     await user.save();
+
     return NextResponse.json({
       message: `Success: title with olid: ${olid} was removed from read list`,
     });

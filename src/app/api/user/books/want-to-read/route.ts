@@ -17,20 +17,16 @@ export const POST = auth(async function POST(req) {
 
   if (!olid)
     return NextResponse.json(
-      { message: "Invalid request body" },
+      { error: "Invalid request body" },
       { status: 400 }
     );
   try {
-    // Add the book to the user's want-to-read list if it's not there already
-    // Add the book to the book collection (if it doesn't exist)
     const user = await UserModel.findById(req.auth.user.id);
     if (!user)
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
 
-    const { wantToRead } = user;
+    user.wantToRead = Array.from(new Set(user.wantToRead.concat(olid)));
 
-    wantToRead.push(olid);
-    user.wantToRead = Array.from(new Set(wantToRead));
     await upsertBookWantToRead(olid, req.auth.user.id as string);
 
     await user.save();
@@ -68,7 +64,7 @@ export const PATCH = auth(async function PATCH(req) {
     await connectDb();
     const user = await UserModel.findById(req.auth.user.id);
     if (!user)
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
 
     const userWantToReadList = user.wantToRead;
 
@@ -79,7 +75,7 @@ export const PATCH = auth(async function PATCH(req) {
     // Update the book by searching for it by olid and removing the user's id from the wantToRead array
     const targetBook = await BookModel.findOne({ olid });
     if (!targetBook)
-      return NextResponse.json({ message: "Book not found" }, { status: 404 });
+      return NextResponse.json({ error: "Book not found" }, { status: 404 });
 
     targetBook.wantToRead = targetBook.wantToRead.filter(
       (userId) => userId !== req.auth!.user!.id

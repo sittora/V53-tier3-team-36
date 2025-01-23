@@ -16,10 +16,8 @@ export async function upsertBookRead(olid: string, date: Date, userId: string) {
       olid,
       readBy: { [userId]: date },
     });
-  } else {
-    const { readBy } = targetBook;
-    readBy.set(userId, date);
-
-    await targetBook.save();
+    return;
   }
+  targetBook.readBy.set(userId, date);
+  await targetBook.save();
 }

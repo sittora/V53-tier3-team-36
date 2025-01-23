@@ -16,7 +16,6 @@ export async function upsertBookRating(
     return;
   }
 
-  const { userRatings } = targetBook;
-  userRatings.set(userId, rating);
+  targetBook.userRatings.set(userId, rating);
   await targetBook.save();
 }

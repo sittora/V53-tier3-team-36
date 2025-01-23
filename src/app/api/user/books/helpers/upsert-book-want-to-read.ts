@@ -6,10 +6,11 @@ export async function upsertBookWantToRead(olid: string, userId: string) {
 
   if (!targetBook) {
     await BookModel.create({ olid: olid, wantToRead: [userId] });
-  } else {
-    const { wantToRead } = targetBook;
-    wantToRead.push(userId);
-    targetBook.wantToRead = Array.from(new Set(wantToRead));
-    await targetBook.save();
+    return;
   }
+  targetBook.wantToRead = Array.from(
+    new Set(targetBook.wantToRead.concat(userId))
+  );
+
+  await targetBook.save();
 }
