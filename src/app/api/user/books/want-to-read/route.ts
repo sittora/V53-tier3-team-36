@@ -10,7 +10,7 @@ import { upsertBookWantToRead } from "../helpers/upsert-book-want-to-read";
 
 export const POST = auth(async function POST(req) {
   if (!req.auth || !req.auth.user)
-    return NextResponse.json({ message: "Not authorized" }, { status: 401 });
+    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
   const requestBody = await req.json();
   const { olid } = requestBody;
@@ -43,7 +43,7 @@ export const POST = auth(async function POST(req) {
 // Remove a book from the user's want-to-read list (undo) and update the book collection
 export const PATCH = auth(async function PATCH(req) {
   if (!req.auth || !req.auth.user)
-    return NextResponse.json({ message: "Not authorized" }, { status: 401 });
+    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
   const requestBody = await req.json();
 

@@ -14,7 +14,7 @@ import { upsertBookRating } from "../helpers/upsert-book-rating";
 // If the user has already rated the book, update the rating
 export const POST = auth(async function POST(req) {
   if (!req.auth || !req.auth.user)
-    return NextResponse.json({ message: "Not authorized" }, { status: 401 });
+    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
   const requestBody = await req.json();
   try {
@@ -57,7 +57,7 @@ export const POST = auth(async function POST(req) {
 // This route deletes a rating for a user
 export const PATCH = auth(async function PATCH(req) {
   if (!req.auth || !req.auth.user)
-    return NextResponse.json({ message: "Not authorized" }, { status: 401 });
+    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
   const requestBody = await req.json();
 
