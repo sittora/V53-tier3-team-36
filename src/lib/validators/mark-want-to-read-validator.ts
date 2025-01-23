@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const markUnWantToReadValidator = z.object({
+export const undoMarkWantToReadValidator = z.object({
   olid: z.string(),
   action: z.enum(["mark-undo-want-to-read"]),
 });
