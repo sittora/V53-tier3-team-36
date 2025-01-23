@@ -5,8 +5,8 @@ export async function upsertBookRating(
   userId: string,
   rating: number
 ): Promise<void> {
-  // Check if the book exists, if not create it and add the rating and user info to it
-
+  // Checks if a book exists in the collection, if not, creates a new document and adds the rating
+  // otherwise, updates the rating
   const targetBook = await BookModel.findOne({ olid });
   if (!targetBook) {
     await BookModel.create({
