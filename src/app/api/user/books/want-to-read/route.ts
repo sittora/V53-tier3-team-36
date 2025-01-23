@@ -2,7 +2,8 @@ import { auth } from "@/auth/auth";
 import connectDb from "@/lib/mongodb/mongodb";
 import { BookModel } from "@/lib/schemas/book.schema";
 import { UserModel } from "@/lib/schemas/user.schema";
-import { markUnWantToReadValidator } from "@/lib/validators/mark-un-want-to-read";
+
+import { undoMarkWantToReadValidator } from "@/lib/validators/mark-want-to-read-validator";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { upsertBookWantToRead } from "../helpers/upsert-book-want-to-read";
@@ -37,7 +38,7 @@ export const POST = auth(async function POST(req) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { message: "Failed to mark book as want to read" },
+      { error: "Failed to mark book as want to read" },
       { status: 500 }
     );
   }
@@ -51,7 +52,7 @@ export const PATCH = auth(async function PATCH(req) {
   const requestBody = await req.json();
 
   try {
-    markUnWantToReadValidator.parse(requestBody);
+    undoMarkWantToReadValidator.parse(requestBody);
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });
@@ -90,7 +91,7 @@ export const PATCH = auth(async function PATCH(req) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { message: "Failed to mark book as unread" },
+      { error: "Failed to mark book as unread" },
       { status: 500 }
     );
   }

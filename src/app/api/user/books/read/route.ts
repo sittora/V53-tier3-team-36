@@ -2,8 +2,11 @@ import { auth } from "@/auth/auth";
 import connectDb from "@/lib/mongodb/mongodb";
 import { BookModel } from "@/lib/schemas/book.schema";
 import { UserModel } from "@/lib/schemas/user.schema";
-import { markReadValidator } from "@/lib/validators/mark-read-validator";
-import { markUnreadValidator } from "@/lib/validators/mark-unread-validator";
+import {
+  markReadValidator,
+  undoMarkReadValidator,
+} from "@/lib/validators/mark-read-validator";
+
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { upsertBookRead } from "../helpers/upsert-book-read";
@@ -65,7 +68,7 @@ export const PATCH = auth(async function PATCH(req) {
   const requestBody = await req.json();
   try {
     // Validate the request body. If it throws, return a 400 response
-    markUnreadValidator.parse(requestBody);
+    undoMarkReadValidator.parse(requestBody);
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });
@@ -112,7 +115,7 @@ export const PATCH = auth(async function PATCH(req) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { message: "Failed to unmark book as read" },
+      { error: "Failed to unmark book as read" },
       { status: 500 }
     );
   }
