@@ -39,7 +39,7 @@ export const POST = auth(async function POST(req) {
 
     user.rated = Array.from(new Set([...user.rated, olid]));
 
-    // update or upsert the book collection
+    // upsert to the book collection
     await upsertBookRating(olid, req.auth.user.id as string, rating);
     await user.save();
 
@@ -73,7 +73,7 @@ export const PATCH = auth(async function PATCH(req) {
     );
   }
 
-  const { olid } = requestBody; // We won't worry about the action now, maybe we'll need it when we expand functionality
+  const { olid } = requestBody; // We won't worry about the 'action' value in the response body for now, maybe we'll need it when we expand functionality
   try {
     await connectDb();
     const user = await UserModel.findById(req.auth.user.id);
