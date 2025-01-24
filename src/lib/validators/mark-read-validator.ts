@@ -1,7 +1,13 @@
 import { z } from "zod";
 
 export const markReadValidator = z.object({
-  date: z.string().transform((val) => new Date(val).toISOString()),
+  date: z
+    .string()
+    .nullable()
+    .transform((val) => {
+      if (val) return new Date(val).toISOString();
+      return null;
+    }),
   olid: z.string(),
 });
 

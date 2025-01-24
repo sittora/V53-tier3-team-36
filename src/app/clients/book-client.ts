@@ -10,7 +10,7 @@ export const BookClient = {
       throw new Error("Failed to mark book as want to read");
     }
   },
-  markRead: async (olid: string, date: Date) => {
+  markRead: async (olid: string, date: Date | null) => {
     const response = await fetch("/api/user/books/read", {
       method: "POST",
       body: JSON.stringify({ olid, date }),
