@@ -57,8 +57,7 @@ export const POST = auth(async function POST(req) {
   }
 });
 
-// Undo the marked as read request via PATCH
-
+// This handles undoing the marked as read action
 export const PATCH = auth(async function PATCH(req) {
   if (!req.auth || !req.auth.user)
     return NextResponse.json({ error: "Not authorized" }, { status: 401 });
@@ -76,7 +75,7 @@ export const PATCH = auth(async function PATCH(req) {
       { status: 400 }
     );
   }
-  const { olid } = requestBody; // TODO: if the action is something other than mark unread, it needs to be evaluated
+  const { olid } = requestBody;
 
   try {
     await connectDb();
@@ -102,7 +101,7 @@ export const PATCH = auth(async function PATCH(req) {
       );
     }
 
-    targetBook.readBy.delete(req.auth.user.id as string); // Remove the key-value pair of the user
+    targetBook.readBy.delete(req.auth.user.id as string);
 
     await targetBook.save();
     await user.save();
