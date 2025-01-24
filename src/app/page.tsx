@@ -1,5 +1,10 @@
-export default function Home() {
+import TrendingBooks from "@/components/trendingBooks/TrendingBooks";
+
+export default async function Home() {
+
   return (
-    <div>Dashboard</div>
+    <div>
+      <TrendingBooks />
+    </div>
   );
 }
