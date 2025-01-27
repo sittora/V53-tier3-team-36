@@ -1,4 +1,4 @@
-import { auth, signIn } from "../../auth";
+import { auth, signIn } from "@/auth/auth";
 
 export default async function Header() {
   const session = await auth();
