@@ -95,13 +95,6 @@ export default function Footer() {
                   "https://www.linkedin.com/in/sjhabsc/"
                 )}
               </li>
-              <li className="mb-4">
-                {socialLinks(
-                  "Sierra Swaby",
-                  "https://github.com/starkspark",
-                  "https://www.linkedin.com/in/sierra-swaby/"
-                )}
-              </li>
             </ul>
           </div>
           <div>

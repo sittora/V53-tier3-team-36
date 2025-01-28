@@ -23,10 +23,10 @@ export default async function TrendingBooks() {
   return (
     <div>
         <span className="font-bold text-3xl">Trending Books</span>
-        <div className="grid grid-flow-col gap-4 grid-rows-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {booksToShow.map((book: any) => {
                 return (
-                    <BookCard title={book.title} author={book.author[0]} />
+                    <BookCard title={book.title} author={book.author} id={book.id} />
                 )
             })}
         </div>
