@@ -24,7 +24,7 @@ export default async function Home() {
   return (
     <div className="w-full">
       <TrendingBooks />
-      <Dialog onClose={onClose} onAddToRead={onAddToRead} onAddToWantToRead={onAddToWantToRead} loggedIn={user && true} />
+      <Dialog onClose={onClose} onAddToRead={onAddToRead} onAddToWantToRead={onAddToWantToRead} loggedIn={user === undefined ? false : true} />
     </div>
   );
 }
