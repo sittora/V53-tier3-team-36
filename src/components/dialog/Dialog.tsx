@@ -1,8 +1,7 @@
 "use client"
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useRef, useEffect, useState } from 'react';
-
-const SEARCH_URL = "http://openlibrary.org";
+import { OpenLibrary } from "app/clients/open-library-client";
 
 type Props = {
     onClose: () => void,
@@ -50,28 +49,27 @@ export default function Dialog({ onClose, onAddToRead, onAddToWantToRead, logged
 
     useEffect(() => {
         setLoading(true);
+
+        const getBookData = async () => {
+            const bookData = await OpenLibrary.getBookById(bookId);
+            setBookData(bookData);
+        }
+
         if (bookId !== null ) {
-            fetch(`${SEARCH_URL}${bookId}.json`)
-            .then((res) => {
-                return res.json();
-            })
-            .then((data) => {
-                setBookData(data);
-            });
+            getBookData();
         }
       }, [bookId]);
 
       useEffect(() => {
         if (bookData?.authors) {
-            fetch(`${SEARCH_URL}${bookData.authors[0].author.key}.json`)
-            .then((res) => {
-                return res.json();
-            })
-            .then((data) => {
-                setAuthorData(data);
-                setLoading(false);
-            });
+            const getAuthorData = async () => {
+                const authorKey = bookData.authors[0].author.key
+                const authorData = await OpenLibrary.getAuthorData(authorKey);
+                setAuthorData(authorData);
+            }
+            getAuthorData().catch(console.error)
         }
+        setLoading(false);
       }, [bookData])
 
     const closeDialog = () => {
