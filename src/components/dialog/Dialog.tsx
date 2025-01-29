@@ -11,6 +11,23 @@ type Props = {
     loggedIn: boolean,
 }
 
+type AuthorObject = {
+    [author: string]: {
+        [key: string]: string
+    }
+};
+
+type BookData = null | {
+    authors: Array<AuthorObject>,
+    title: string,
+    subjects: Array<string>,
+    description: string | {[value: string]: string}
+}
+
+type AuthorData = null | {
+    name: string
+}
+
 export default function Dialog({ onClose, onAddToRead, onAddToWantToRead, loggedIn }: Props) {
   const router = useRouter()
 
@@ -19,8 +36,8 @@ export default function Dialog({ onClose, onAddToRead, onAddToWantToRead, logged
     const showDialog = searchParams.get('showDialog')
     const bookId = searchParams.get('search');
 
-    const [bookData, setBookData] = useState<any>({});
-    const [authorData, setAuthorData] = useState<any>({});
+    const [bookData, setBookData] = useState<BookData>(null);
+    const [authorData, setAuthorData] = useState<AuthorData>(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -45,7 +62,7 @@ export default function Dialog({ onClose, onAddToRead, onAddToWantToRead, logged
       }, [bookId]);
 
       useEffect(() => {
-        if (bookData.authors) {
+        if (bookData?.authors) {
             fetch(`${SEARCH_URL}${bookData.authors[0].author.key}.json`)
             .then((res) => {
                 return res.json();
@@ -90,7 +107,7 @@ export default function Dialog({ onClose, onAddToRead, onAddToWantToRead, logged
                                 <h1 className="text-3xl font-bold">{bookData.title}</h1>
                                 <h4 className="text-lg italic pb-3">{authorData.name}</h4>
                                 <div className="pb-3">{bookData.subjects?.slice(0, 5).map((subject: string, i: number) => <span key={i}>{subject}{i !== 4 && ","} </span>)}</div>
-                                <span>{bookData.description?.value ? bookData.description.value : bookData.description}</span>
+                                <span>{bookData.description && (typeof bookData.description === 'string' ? bookData.description : bookData.description.value)}</span>
                             </div>
                         }
                         {loggedIn ? <div className="flex flex-row justify-end mt-2">
