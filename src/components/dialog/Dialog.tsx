@@ -1,21 +1,21 @@
 "use client";
-import { AuthorData, BookData } from "@/types/open-library";
+import { User } from "@/lib/models/user.model";
+import { AuthorData, BookAction, BookData } from "@/types/open-library";
 import { OpenLibrary } from "app/clients/open-library-client";
+import { UserClient } from "app/clients/user-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { JSX, useEffect, useRef, useState } from "react";
 
 type Props = {
   onClose: () => void;
-  onAddToRead: (olKey: string) => void;
-  onAddToWantToRead: (olKey: string) => void;
+  onBookActionTaken: (olKey: string, action: BookAction) => void;
   loggedIn: boolean;
 };
 
 export default function Dialog({
   onClose,
-  onAddToRead,
-  onAddToWantToRead,
   loggedIn,
+  onBookActionTaken,
 }: Props) {
   const router = useRouter();
 
@@ -27,6 +27,8 @@ export default function Dialog({
   const [bookData, setBookData] = useState<BookData>(null);
   const [authorData, setAuthorData] = useState<AuthorData>(null);
   const [loading, setLoading] = useState(false);
+
+  const [userContext, setUserContext] = useState<User | null>(null);
 
   useEffect(() => {
     if (showDialog === "y") {
@@ -50,6 +52,15 @@ export default function Dialog({
   }, [bookId]);
 
   useEffect(() => {
+    const getUserContext = async () => {
+      const response = await UserClient.getUser();
+      setUserContext(response);
+    };
+
+    getUserContext();
+  }, [bookId]);
+
+  useEffect(() => {
     if (bookData?.authors) {
       const getAuthorData = async () => {
         const authorKey = bookData.authors[0].author.key;
@@ -61,20 +72,24 @@ export default function Dialog({
     setLoading(false);
   }, [bookData]);
 
+  function isOnUserReadList(): boolean {
+    if (!userContext) return false;
+    return userContext.read.includes(bookData?.key!);
+  }
+
+  function isOnWantToReadList(): boolean {
+    if (!userContext) return false;
+    return userContext.wantToRead.includes(bookData?.key!);
+  }
+
   const closeDialog = () => {
     dialogRef.current?.close();
     onClose();
     router.back();
   };
 
-  const clickAddToRead = () => {
-    console.log("bookdata key", bookData?.key);
-    onAddToRead(bookData?.key!);
-    closeDialog();
-  };
-
-  const clickAddToWantToRead = () => {
-    onAddToWantToRead(bookData?.key!);
+  const handleBookActionTaken = (action: BookAction) => {
+    onBookActionTaken(bookData?.key!, action);
     closeDialog();
   };
 
@@ -119,18 +134,36 @@ export default function Dialog({
             )}
             {loggedIn ? (
               <div className="flex flex-row justify-end mt-2">
-                <button
-                  onClick={clickAddToRead}
-                  className="bg-green-500 py-1 px-2 rounded border-none mr-2"
-                >
-                  Add to Read
-                </button>
-                <button
-                  onClick={clickAddToWantToRead}
-                  className="bg-green-500 py-1 px-2 rounded border-none"
-                >
-                  Add to Want To Read
-                </button>
+                {!isOnUserReadList() ? (
+                  <button
+                    onClick={() => handleBookActionTaken("read")}
+                    className="bg-green-500 py-1 px-2 rounded border-none mr-2"
+                  >
+                    Add to Read
+                  </button>
+                ) : (
+                  <button
+                    className="bg-orange-500 py-1 px-2 rounded border-none mr-2"
+                    onClick={() => handleBookActionTaken("remove_read")}
+                  >
+                    Remove from read List
+                  </button>
+                )}
+                {!isOnWantToReadList() ? (
+                  <button
+                    onClick={() => handleBookActionTaken("wantToRead")}
+                    className="bg-green-500 py-1 px-2 rounded border-none"
+                  >
+                    Add to Want To Read
+                  </button>
+                ) : (
+                  <button
+                    className="bg-orange-500 py-1 px-2 rounded border-none mr-2"
+                    onClick={() => handleBookActionTaken("remove_wantToRead")}
+                  >
+                    Remove from want-to-read list
+                  </button>
+                )}
               </div>
             ) : null}
           </div>

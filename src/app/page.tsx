@@ -1,5 +1,6 @@
 "use client";
 import TrendingBooks from "@/components/trendingBooks/TrendingBooks";
+import { BookAction } from "@/types/open-library";
 import Dialog from "components/dialog/Dialog";
 import { useSession } from "next-auth/react";
 import { BookClient } from "./clients/book-client";
@@ -13,20 +14,24 @@ export default function Home() {
     console.log("Modal has closed");
   }
 
-  async function onAddToRead(olId: string) {
+  async function handleBookActionTaken(olId: string, action: BookAction) {
     try {
-      await BookClient.markRead(olId, new Date());
+      switch (action) {
+        case "read":
+          await BookClient.markRead(olId, new Date());
+          break;
+        case "wantToRead":
+          await BookClient.markWantToRead(olId);
+          break;
+        case "remove_read":
+          await BookClient.undoMarkRead(olId);
+          break;
+        case "remove_wantToRead":
+          await BookClient.undoMarkWantToRead(olId);
+          break;
+      }
     } catch (error) {
-      console.error((error as Error).message, "Failed to add to read");
-    }
-  }
-
-  async function onAddToWantToRead(olId: string) {
-    console.log("Add to Want To Read");
-    try {
-      await BookClient.markWantToRead(olId);
-    } catch (error) {
-      console.error((error as Error).message, "Failed to add to want to read");
+      console.error((error as Error).message);
     }
   }
 
@@ -35,8 +40,7 @@ export default function Home() {
       <TrendingBooks />
       <Dialog
         onClose={onClose}
-        onAddToRead={onAddToRead}
-        onAddToWantToRead={onAddToWantToRead}
+        onBookActionTaken={handleBookActionTaken}
         loggedIn={user === undefined ? false : true}
       />
     </div>
