@@ -1,4 +1,5 @@
 "use client";
+import { AuthorData, BookData } from "@/types/open-library";
 import { OpenLibrary } from "app/clients/open-library-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { JSX, useEffect, useRef, useState } from "react";
@@ -8,24 +9,6 @@ type Props = {
   onAddToRead: (olKey: string) => void;
   onAddToWantToRead: (olKey: string) => void;
   loggedIn: boolean;
-};
-
-type AuthorObject = {
-  [author: string]: {
-    [key: string]: string;
-  };
-};
-
-type BookData = null | {
-  authors: Array<AuthorObject>;
-  title: string;
-  subjects: Array<string>;
-  description: string | { [value: string]: string };
-  key: string;
-};
-
-type AuthorData = null | {
-  name: string;
 };
 
 export default function Dialog({
