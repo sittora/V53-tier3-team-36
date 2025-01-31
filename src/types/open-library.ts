@@ -24,6 +24,11 @@ export type OpenLibraryBook = {
   first_publish_year: number;
 };
 
+export type BookAction =
+  | "read"
+  | "wantToRead"
+  | "remove_read"
+  | "remove_wantToRead";
 export type OpenLibraryTrendingBooksAPIResponse = {
   works: Array<OpenLibraryBook>;
 };
