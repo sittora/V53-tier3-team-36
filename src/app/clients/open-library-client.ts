@@ -1,5 +1,6 @@
 import {
   BookData,
+  SearchBookList,
   OpenLibraryTrendingBooksAPIResponse,
 } from "@/types/open-library";
 
@@ -28,6 +29,14 @@ export const OpenLibrary = {
       return response.json();
     } else {
       throw new Error("Failed to fetch author data");
+    }
+  },
+  getBooksBySearch: async (searchTerm: string): Promise<SearchBookList> => {
+    const response = await fetch(`${OL_URL}/search.json?q=${searchTerm}`);
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Failed to fetch search data");
     }
   },
 };

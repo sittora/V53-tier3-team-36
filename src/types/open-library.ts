@@ -32,3 +32,7 @@ export type BookAction =
 export type OpenLibraryTrendingBooksAPIResponse = {
   works: Array<OpenLibraryBook>;
 };
+
+export type SearchBookList = {
+  docs: OpenLibraryBook[]
+}
