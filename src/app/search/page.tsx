@@ -28,7 +28,7 @@ export default function Search() {
   }, [searchTerm]);
 
   return (
-    <div>
+    <div className="w-full">
       {loading ? <span>Loading...</span>:
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {books?.map((book: OpenLibraryBook) => {

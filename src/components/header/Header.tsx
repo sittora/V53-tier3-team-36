@@ -2,7 +2,7 @@
 
 import {User} from '../../types/user';
 import {useState} from "react";
-import SearchInput from 'components/searchInput/SearchInput';
+import SearchInput from 'components/header/SearchInput';
 
 type Props = {
   handleLogin: () => void;
