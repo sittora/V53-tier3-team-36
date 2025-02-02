@@ -1,7 +1,8 @@
 'use client'
 
 import {User} from '../../types/user';
-import {useState, KeyboardEvent} from "react";
+import {useState} from "react";
+import SearchInput from 'components/searchInput/SearchInput';
 
 type Props = {
   handleLogin: () => void;
@@ -14,12 +15,6 @@ export default function Header({
 }: Props) {
 
   const [menuType, setMenuType] = useState<undefined | string>(undefined);
-
-  const onSearch = (e: KeyboardEvent<HTMLInputElement>) => {
-    if(e.key === 'Enter') {
-      console.log('ENTER')
-    }
-  }
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -81,12 +76,7 @@ export default function Header({
               </svg>
               <span className="sr-only">Search icon</span>
             </div>
-            <input
-              type="text"
-              id="search-navbar"
-              className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Search..."
-            />
+            <SearchInput />
           </div>
           <button
             data-collapse-toggle="navbar-search"
@@ -173,13 +163,7 @@ export default function Header({
                 />
               </svg>
             </div>
-            <input
-              type="text"
-              id="search-navbar"
-              className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Search..."
-              onKeyDown={(e) => onSearch(e)}
-            />
+            <SearchInput />
           </div>
     </nav>
   );
