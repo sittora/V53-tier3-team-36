@@ -18,7 +18,7 @@ export default async function PageLayout({
 
   return (
     <div className="page-layout-container">
-      <Header handleLogin={handleLogin} user={user} />
+      <Header handleLogin={handleLogin} isLoggedIn={!!user} />
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         {children}
       </div>
