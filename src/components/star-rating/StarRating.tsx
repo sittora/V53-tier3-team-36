@@ -15,7 +15,15 @@ export default function StarRating({
 }: StarRatingProps) {
   const [currentRating, setCurrentRating] = useState<number | null>(rating);
   const handleRatingChanged = (rating: number) => {
-    setCurrentRating(rating);
+    if (rating === currentRating && !readOnly) {
+      return;
+    }
+
+    if (rating < 0) {
+      setCurrentRating(null);
+    } else {
+      setCurrentRating(rating);
+    }
     onRatingChanged?.(rating);
   };
   return (
@@ -23,7 +31,12 @@ export default function StarRating({
       <span className="font-bold mr-2">{title}:</span>
       {...renderStarRating(currentRating, readOnly, handleRatingChanged)}
       {!readOnly && rating && (
-        <button className="text-sm text-red-600 ml-2">Clear</button>
+        <button
+          className="text-sm text-red-600 ml-2"
+          onClick={() => handleRatingChanged(-1)}
+        >
+          Clear
+        </button>
       )}
     </div>
   );

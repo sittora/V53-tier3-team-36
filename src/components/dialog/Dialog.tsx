@@ -67,10 +67,6 @@ export default function Dialog({
   }, [bookId]);
 
   useEffect(() => {
-    const getBookRatingData = async () => {
-      const response = await BookClient.getBookRatingById(bookId!);
-      setLumiBookRatingData(response);
-    };
     if (bookId) getBookRatingData();
   }, [bookId]);
 
@@ -85,6 +81,11 @@ export default function Dialog({
     }
     setLoading(false);
   }, [bookData]);
+
+  const getBookRatingData = async () => {
+    const response = await BookClient.getBookRatingById(bookId!);
+    setLumiBookRatingData(response);
+  };
 
   function isOnUserReadList(): boolean {
     if (!userContext) return false;
@@ -105,6 +106,26 @@ export default function Dialog({
   const handleBookActionTaken = (action: BookAction) => {
     onBookActionTaken(bookData?.key!, action);
     closeDialog();
+  };
+
+  const handleUpdateRating = async (rating: number) => {
+    // If the rating is -1  then delete the rating
+    if (rating === -1) {
+      try {
+        await BookClient.deleteRating(bookData?.key!);
+        // Refresh the rating data
+        await getBookRatingData();
+      } catch (error) {
+        console.error("Failed to delete rating", (error as Error).message);
+      }
+    } else {
+      try {
+        await BookClient.rateBook(bookData?.key!, rating);
+        await getBookRatingData();
+      } catch (error) {
+        console.error("failed to rate book", (error as Error).message);
+      }
+    }
   };
 
   const dialog = showDialog === "y" && (
@@ -156,6 +177,7 @@ export default function Dialog({
                   <StarRating
                     rating={lumiBookRatingData?.userRating!}
                     title="My Rating"
+                    onRatingChanged={handleUpdateRating}
                   />
                 </div>
               </div>
