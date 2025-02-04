@@ -1,6 +1,7 @@
 import Footer from "@/components/footer/Footer";
 import Header from "@/components/header/Header";
 import { auth, signIn } from "@/auth/auth";
+import Dialog from "../dialog/Dialog";
 
 export default async function PageLayout({
   children,
@@ -22,6 +23,7 @@ export default async function PageLayout({
         {children}
       </div>
       <Footer />
+      <Dialog loggedIn={user === undefined ? false : true} />
     </div>
   );
 }

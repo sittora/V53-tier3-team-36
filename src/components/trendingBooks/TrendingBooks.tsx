@@ -36,6 +36,7 @@ export default function TrendingBooks() {
                 author={author}
                 id={book.key}
                 key={book.key}
+                url={"/?"}
               />
             );
           })

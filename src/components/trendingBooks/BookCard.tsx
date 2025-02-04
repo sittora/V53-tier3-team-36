@@ -4,10 +4,12 @@ export default function BookCard({
   title,
   author,
   id,
+  url,
 }: {
   title: string;
   author: string;
   id: number;
+  url: string;
 }) {
   return (
     <div
@@ -17,7 +19,7 @@ export default function BookCard({
       <span className="text-center font-bold">{title}</span>
       {author ? <span className="text-center">by {author}</span> : null}
       <Link
-        href={`/?showDialog=y&search=${id}`}
+        href={`${url}showDialog=y&work=${id}`}
         className="underline text-center"
       >
         View Book Details

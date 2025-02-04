@@ -1,34 +1,50 @@
 "use client";
 import { User } from "@/lib/models/user.model";
 import { AuthorData, BookAction, BookData } from "@/types/open-library";
+import { BookClient } from "app/clients/book-client";
 import { OpenLibrary } from "app/clients/open-library-client";
 import { UserClient } from "app/clients/user-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { JSX, useEffect, useRef, useState } from "react";
 
 type Props = {
-  onClose: () => void;
-  onBookActionTaken: (olKey: string, action: BookAction) => void;
   loggedIn: boolean;
 };
 
-export default function Dialog({
-  onClose,
-  loggedIn,
-  onBookActionTaken,
-}: Props) {
+export default function Dialog({ loggedIn }: Props) {
   const router = useRouter();
 
   const searchParams = useSearchParams();
   const dialogRef = useRef<null | HTMLDialogElement>(null);
   const showDialog = searchParams.get("showDialog");
-  const bookId = searchParams.get("search");
+  const bookId = searchParams.get("work");
 
   const [bookData, setBookData] = useState<BookData>(null);
   const [authorData, setAuthorData] = useState<AuthorData>(null);
   const [loading, setLoading] = useState(false);
 
   const [userContext, setUserContext] = useState<User | null>(null);
+
+  async function onBookActionTaken(olId: string, action: BookAction) {
+    try {
+      switch (action) {
+        case "read":
+          await BookClient.markRead(olId, new Date());
+          break;
+        case "wantToRead":
+          await BookClient.markWantToRead(olId);
+          break;
+        case "remove_read":
+          await BookClient.undoMarkRead(olId);
+          break;
+        case "remove_wantToRead":
+          await BookClient.undoMarkWantToRead(olId);
+          break;
+      }
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  }
 
   useEffect(() => {
     if (showDialog === "y") {
@@ -84,7 +100,6 @@ export default function Dialog({
 
   const closeDialog = () => {
     dialogRef.current?.close();
-    onClose();
     router.back();
   };
 

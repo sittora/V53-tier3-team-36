@@ -1,14 +1,12 @@
-"use client"
+"use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { OpenLibraryBook } from '@/types/open-library';
+import { useSearchParams } from "next/navigation";
+import { OpenLibraryBook } from "@/types/open-library";
 import { useState, useEffect } from "react";
 import { OpenLibrary } from "app/clients/open-library-client";
 import BookCard from "components/trendingBooks/BookCard";
 
 export default function Search() {
-
-  const router = useRouter();
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("title");
 
@@ -18,7 +16,7 @@ export default function Search() {
   useEffect(() => {
     const getSearchBooks = async () => {
       const bookList = await OpenLibrary.getBooksBySearch(searchTerm);
-      const {docs} = bookList;
+      const { docs } = bookList;
       const booksToShow = docs.slice(0, 20);
       setBooks(booksToShow);
       setLoading(false);
@@ -29,25 +27,26 @@ export default function Search() {
 
   return (
     <div className="w-full">
-      {loading ? <span>Loading...</span>:
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {books?.map((book: OpenLibraryBook) => {
-          const author = Array.isArray(book.author_name)
-            ? book.author_name[0]
-            : book.author_name;
-          return (
-            <BookCard
-              title={book.title}
-              author={author}
-              id={book.key}
-              key={book.key}
-            />
-          );
-        })}
-      </div>
-  }
+      {loading ? (
+        <span>Loading...</span>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {books?.map((book: OpenLibraryBook) => {
+            const author = Array.isArray(book.author_name)
+              ? book.author_name[0]
+              : book.author_name;
+            return (
+              <BookCard
+                title={book.title}
+                author={author}
+                id={book.key}
+                key={book.key}
+                url={`search?title=${searchTerm}&`}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
-  
-  )
-    
+  );
 }
