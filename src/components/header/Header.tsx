@@ -1,6 +1,5 @@
 'use client'
 
-import {User} from '../../types/user';
 import {useState} from "react";
 import SearchInput from 'components/header/SearchInput';
 
