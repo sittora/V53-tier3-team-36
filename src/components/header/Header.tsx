@@ -1,18 +1,14 @@
-'use client'
+"use client";
 
-import {useState} from "react";
-import SearchInput from 'components/header/SearchInput';
+import { useState } from "react";
+import SearchInput from "components/header/SearchInput";
 
 type Props = {
   handleLogin: () => void;
   isLoggedIn: boolean;
-}
+};
 
-export default function Header({
-  handleLogin,
-  isLoggedIn,
-}: Props) {
-
+export default function Header({ handleLogin, isLoggedIn }: Props) {
   const [menuType, setMenuType] = useState<undefined | string>(undefined);
 
   return (
@@ -36,7 +32,9 @@ export default function Header({
             aria-expanded="false"
             className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"
             onClick={() => {
-              menuType === undefined || menuType === "links" ? setMenuType('search') : setMenuType(undefined);
+              menuType === undefined || menuType === "links"
+                ? setMenuType("search")
+                : setMenuType(undefined);
             }}
           >
             <svg
@@ -84,7 +82,9 @@ export default function Header({
             aria-controls="navbar-search"
             aria-expanded="false"
             onClick={() => {
-              menuType === undefined || menuType === 'search' ? setMenuType('links') : setMenuType(undefined);
+              menuType === undefined || menuType === "search"
+                ? setMenuType("links")
+                : setMenuType(undefined);
             }}
           >
             <span className="sr-only">Open main menu</span>
@@ -106,7 +106,9 @@ export default function Header({
           </button>
         </div>
         <div
-          className={`items-center justify-between ${menuType === 'links' ? 'block' : 'hidden'} w-full md:flex md:w-auto md:order-1`}
+          className={`items-center justify-between ${
+            menuType === "links" ? "block" : "hidden"
+          } w-full md:flex md:w-auto md:order-1`}
           id="navbar-search"
         >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
@@ -144,26 +146,26 @@ export default function Header({
           </ul>
         </div>
       </div>
-      <div className={`relative ${menuType === 'search' ? 'block' : 'hidden'}`}>
-            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
-            </div>
-            <SearchInput />
-          </div>
+      <div className={`relative ${menuType === "search" ? "block" : "hidden"}`}>
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <svg
+            className="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
+        </div>
+        <SearchInput />
+      </div>
     </nav>
   );
 }

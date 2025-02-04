@@ -7,7 +7,6 @@ export default async function PageLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const session = await auth();
   const user = session?.user;
 
