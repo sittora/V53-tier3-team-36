@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import SearchInput from "components/header/SearchInput";
+import NextImg from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 
 type Props = {
   handleLogin: () => void;
@@ -14,16 +16,21 @@ export default function Header({ handleLogin, isLoggedIn }: Props) {
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img
+        <Link
+          href="/"
+          className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          <NextImg
             src="https://img.icons8.com/?size=100&id=23662&format=png&color=000000"
             className="h-8"
             alt="Luminaria Logo"
+            width={32}
+            height={32}
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             Luminaria
           </span>
-        </a>
+        </Link>
         <div className="flex md:order-1">
           <button
             type="button"

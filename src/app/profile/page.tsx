@@ -1,6 +1,6 @@
 import { auth, signOut } from "@/auth/auth";
+import NextImg from "next/image";
 import { redirect } from "next/navigation";
-
 export default async function Profile() {
   const session = await auth();
   const user = session?.user;
@@ -9,10 +9,12 @@ export default async function Profile() {
     <div className={"flex flex-col items-center w-full"}>
       <h1 className={"font-bold text-lg"}>Welcome {user.name}</h1>
       {user.image && (
-        <img
+        <NextImg
           className={"rounded-full border border-black h-16 w-16 my-4"}
           src={user.image}
           alt={"User image"}
+          width={32}
+          height={32}
         />
       )}
       <form

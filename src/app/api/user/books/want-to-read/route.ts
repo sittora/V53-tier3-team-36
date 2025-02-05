@@ -4,12 +4,13 @@ import { BookModel } from "@/lib/schemas/book.schema";
 import { UserModel } from "@/lib/schemas/user.schema";
 
 import { undoMarkWantToReadValidator } from "@/lib/validators/mark-want-to-read-validator";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { upsertBookWantToRead } from "../helpers/upsert-book-want-to-read";
 
-export const POST = auth(async function POST(req) {
-  if (!req.auth || !req.auth.user)
+export async function POST(req: NextRequest) {
+  const authSession = await auth();
+  if (!authSession || !authSession.user)
     return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
   const requestBody = await req.json();
@@ -21,13 +22,13 @@ export const POST = auth(async function POST(req) {
       { status: 400 }
     );
   try {
-    const user = await UserModel.findById(req.auth.user.id);
+    const user = await UserModel.findById(authSession.user.id);
     if (!user)
       return NextResponse.json({ error: "User not found" }, { status: 404 });
 
     user.wantToRead = Array.from(new Set(user.wantToRead.concat(olid)));
 
-    await upsertBookWantToRead(olid, req.auth.user.id as string);
+    await upsertBookWantToRead(olid, authSession.user.id as string);
 
     await user.save();
     return NextResponse.json({ message: "Success" });
@@ -38,11 +39,12 @@ export const POST = auth(async function POST(req) {
       { status: 500 }
     );
   }
-});
+}
 
 // Remove a book from the user's want-to-read list (undo) and update the book collection
-export const PATCH = auth(async function PATCH(req) {
-  if (!req.auth || !req.auth.user)
+export async function PATCH(req: NextRequest) {
+  const authSession = await auth();
+  if (!authSession || !authSession.user)
     return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
   const requestBody = await req.json();
@@ -62,7 +64,7 @@ export const PATCH = auth(async function PATCH(req) {
 
   try {
     await connectDb();
-    const user = await UserModel.findById(req.auth.user.id);
+    const user = await UserModel.findById(authSession.user.id);
     if (!user)
       return NextResponse.json({ error: "User not found" }, { status: 404 });
 
@@ -78,7 +80,7 @@ export const PATCH = auth(async function PATCH(req) {
       return NextResponse.json({ error: "Book not found" }, { status: 404 });
 
     targetBook.wantToRead = targetBook.wantToRead.filter(
-      (userId) => userId !== req.auth!.user!.id
+      (userId) => userId !== authSession!.user!.id
     );
 
     await user.save();
@@ -91,4 +93,4 @@ export const PATCH = auth(async function PATCH(req) {
       { status: 500 }
     );
   }
-});
+}
