@@ -2,14 +2,15 @@ import { auth } from "@/auth/auth";
 import { UserModel } from "@/lib/schemas/user.schema";
 import { NextResponse } from "next/server";
 
-export const GET = auth(async function GET(req) {
+export async function GET() {
   // This route will get the authenticated user
-  if (!req.auth || !req.auth.user)
+  const authSession = await auth();
+  if (!authSession || !authSession.user)
     return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
-  const user = await UserModel.findById(req.auth.user.id);
+  const user = await UserModel.findById(authSession.user.id);
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
   return NextResponse.json(user);
-});
+}

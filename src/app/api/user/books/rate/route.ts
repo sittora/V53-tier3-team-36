@@ -6,14 +6,15 @@ import {
   deleteBookRatingValidator,
   rateBookValidator,
 } from "@/lib/validators/rate-book-validator";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { upsertBookRating } from "../helpers/upsert-book-rating";
 
 // Post a rating for a book
 // If the user has already rated the book, update the rating
-export const POST = auth(async function POST(req) {
-  if (!req.auth || !req.auth.user)
+export async function POST(req: NextRequest) {
+  const authSession = await auth();
+  if (!authSession || !authSession.user)
     return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
   const requestBody = await req.json();
@@ -31,7 +32,7 @@ export const POST = auth(async function POST(req) {
   const { olid, rating } = requestBody;
   try {
     await connectDb();
-    const user = await UserModel.findById(req.auth.user.id);
+    const user = await UserModel.findById(authSession.user.id);
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -40,7 +41,7 @@ export const POST = auth(async function POST(req) {
     user.rated = Array.from(new Set([...user.rated, olid]));
 
     // upsert to the book collection
-    await upsertBookRating(olid, req.auth.user.id as string, rating);
+    await upsertBookRating(olid, authSession.user.id as string, rating);
     await user.save();
 
     return NextResponse.json({
@@ -52,11 +53,12 @@ export const POST = auth(async function POST(req) {
       { status: 500 }
     );
   }
-});
+}
 
 // This route deletes a rating for a user
-export const PATCH = auth(async function PATCH(req) {
-  if (!req.auth || !req.auth.user)
+export async function PATCH(req: NextRequest) {
+  const authSession = await auth();
+  if (!authSession || !authSession.user)
     return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
   const requestBody = await req.json();
@@ -76,7 +78,7 @@ export const PATCH = auth(async function PATCH(req) {
   const { olid } = requestBody; // We won't worry about the 'action' value in the response body for now, maybe we'll need it when we expand functionality
   try {
     await connectDb();
-    const user = await UserModel.findById(req.auth.user.id);
+    const user = await UserModel.findById(authSession.user.id);
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -91,7 +93,7 @@ export const PATCH = auth(async function PATCH(req) {
     if (!targetBook)
       return NextResponse.json({ error: "Book not found" }, { status: 404 });
 
-    targetBook.userRatings.delete(req.auth.user.id as string);
+    targetBook.userRatings.delete(authSession.user.id as string);
 
     await user.save();
     await targetBook.save();
@@ -104,4 +106,4 @@ export const PATCH = auth(async function PATCH(req) {
       { status: 500 }
     );
   }
-});
+}

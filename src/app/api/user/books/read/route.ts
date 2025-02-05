@@ -7,13 +7,14 @@ import {
   undoMarkReadValidator,
 } from "@/lib/validators/mark-read-validator";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { upsertBookRead } from "../helpers/upsert-book-read";
 
 // Marking as read
-export const POST = auth(async function POST(req) {
-  if (!req.auth || !req.auth.user)
+export async function POST(req: NextRequest) {
+  const authSession = await auth();
+  if (!authSession || !authSession.user)
     return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
   const requestBody = await req.json();
@@ -35,14 +36,14 @@ export const POST = auth(async function POST(req) {
     await connectDb();
 
     // update the user's read list
-    const user = await UserModel.findById(req.auth.user.id);
+    const user = await UserModel.findById(authSession.user.id);
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     user.read = Array.from(new Set(user.read.concat(olid)));
 
-    await upsertBookRead(olid, date, req.auth.user.id as string);
+    await upsertBookRead(olid, date, authSession.user.id as string);
     await user.save();
 
     return NextResponse.json({
@@ -55,11 +56,13 @@ export const POST = auth(async function POST(req) {
       { status: 500 }
     );
   }
-});
+}
 
 // This handles undoing the marked as read action
-export const PATCH = auth(async function PATCH(req) {
-  if (!req.auth || !req.auth.user)
+export async function PATCH(req: NextRequest) {
+  const authSession = await auth();
+
+  if (!authSession || !authSession.user)
     return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
   const requestBody = await req.json();
@@ -81,7 +84,7 @@ export const PATCH = auth(async function PATCH(req) {
     await connectDb();
 
     // update the user's read list
-    const user = await UserModel.findById(req.auth.user.id);
+    const user = await UserModel.findById(authSession.user.id);
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
@@ -101,7 +104,7 @@ export const PATCH = auth(async function PATCH(req) {
       );
     }
 
-    targetBook.readBy.delete(req.auth.user.id as string);
+    targetBook.readBy.delete(authSession.user.id as string);
 
     await targetBook.save();
     await user.save();
@@ -116,4 +119,4 @@ export const PATCH = auth(async function PATCH(req) {
       { status: 500 }
     );
   }
-});
+}
