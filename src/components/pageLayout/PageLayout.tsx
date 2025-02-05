@@ -23,7 +23,7 @@ export default async function PageLayout({
         {children}
       </div>
       <Footer />
-      <Dialog loggedIn={user === undefined ? false : true} />
+      <Dialog loggedIn={Boolean(user)} />
     </div>
   );
 }
