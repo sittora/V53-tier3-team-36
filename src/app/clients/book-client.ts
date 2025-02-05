@@ -47,7 +47,7 @@ export const BookClient = {
   },
   rateBook: async (olid: string, rating: number) => {
     // This allows user to rate a book
-    const response = await fetch("/api/user/books/rate", {
+    const response = await fetch("/api/user/books/rating", {
       method: "POST",
       body: JSON.stringify({ olid, rating }),
     });
@@ -59,7 +59,7 @@ export const BookClient = {
   },
   deleteRating: async (olid: string) => {
     // This allows user to delete a rating
-    const response = await fetch("/api/user/books/rate", {
+    const response = await fetch("/api/user/books/rating", {
       method: "PATCH",
       body: JSON.stringify({ olid, action: "delete" }),
     });
@@ -67,6 +67,21 @@ export const BookClient = {
       return response.json();
     } else {
       throw new Error("Failed to delete rating");
+    }
+  },
+  getBookRatingById: async (
+    olid: string
+  ): Promise<{ averageRating: number | null; userRating: number | null }> => {
+    // This allows user to get the average rating of a book and the user's rating
+
+    // Since the formatting of the olid is `/works/xxxx`, we need to extract the `OL1234W` part
+    const extractedId = olid.split("/")[2];
+
+    const response = await fetch(`/api/book/${extractedId}/rating`);
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Failed to get book ratings");
     }
   },
 };
