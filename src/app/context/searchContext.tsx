@@ -1,25 +1,20 @@
 "use client";
-import {createContext, useContext, useState} from 'react';
+import { createContext, useContext, useState } from "react";
 
 const SearchContext = createContext({
-    searchTerm: ''
+  searchTerm: "",
 });
 
-export function SearchProvider({ children } : {
-    children: React.ReactNode;
-}) {
-    const [state, setState] = useState({
-        searchTerm: '',
-    });
+export function SearchProvider({ children }: { children: React.ReactNode }) {
+  const [state] = useState({
+    searchTerm: "",
+  });
 
-    return (
-        <SearchContext.Provider value={state}>
-            {children}
-        </SearchContext.Provider>
-    )
-};
-
-export function useSearchContext() {
-    return useContext(SearchContext);
+  return (
+    <SearchContext.Provider value={state}>{children}</SearchContext.Provider>
+  );
 }
 
+export function useSearchContext() {
+  return useContext(SearchContext);
+}

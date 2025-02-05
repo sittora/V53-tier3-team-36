@@ -74,12 +74,14 @@ export default function Dialog({
 
   function isOnUserReadList(): boolean {
     if (!userContext) return false;
-    return userContext.read.includes(bookData?.key!);
+    if (!bookData) return false;
+    return userContext.read.includes(bookData.key);
   }
 
   function isOnWantToReadList(): boolean {
     if (!userContext) return false;
-    return userContext.wantToRead.includes(bookData?.key!);
+    if (!bookData) return false;
+    return userContext.wantToRead.includes(bookData.key);
   }
 
   const closeDialog = () => {
@@ -89,7 +91,9 @@ export default function Dialog({
   };
 
   const handleBookActionTaken = (action: BookAction) => {
-    onBookActionTaken(bookData?.key!, action);
+    if (bookData) {
+      onBookActionTaken(bookData.key, action);
+    }
     closeDialog();
   };
 

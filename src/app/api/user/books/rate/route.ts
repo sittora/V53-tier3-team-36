@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed update book rating" },
+      { error: "Failed update book rating: " + (error as Error).message },
       { status: 500 }
     );
   }
@@ -102,7 +102,7 @@ export async function PATCH(req: NextRequest) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to delete book rating" },
+      { error: "Failed to delete book rating:" + (error as Error).message },
       { status: 500 }
     );
   }
