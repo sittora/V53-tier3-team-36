@@ -190,20 +190,22 @@ export default function Dialog({ loggedIn }: Props) {
                 {/* Ratings */}
                 <div id="averageRating">
                   <StarRating
-                    rating={
-                      lumiBookRatingData
-                        ? lumiBookRatingData.averageRating!
-                        : null
-                    }
+                    // ratingProps={
+                    //   lumiBookRatingData
+                    //     ? lumiBookRatingData.averageRating!
+                    //     : null
+                    // }
+                    ratingProps={lumiBookRatingData!.averageRating}
                     title="Average Rating"
                     readOnly
                   />
                 </div>
                 <div id="userRating">
                   <StarRating
-                    rating={
-                      lumiBookRatingData ? lumiBookRatingData.userRating! : null
-                    }
+                    // ratingProps={
+                    //   lumiBookRatingData ? lumiBookRatingData.userRating! : null
+                    // }
+                    ratingProps={lumiBookRatingData!.userRating}
                     title="My Rating"
                     onRatingChanged={handleUpdateRating}
                   />
