@@ -1,42 +1,27 @@
-# voyage-tasks
+## About the project
 
-Your project's `readme` is as important to success as your code. For
-this reason you should put as much care into its creation and maintenance
-as you would any other component of the application.
+TBD
 
-If you are unsure of what should go into the `readme` let this article,
-written by an experienced Chingu, be your starting point -
-[Keys to a well written README](https://tinyurl.com/yk3wubft).
+## Development environment
 
-And before we go there's "one more thing"! Once you decide what to include
-in your `readme` feel free to replace the text we've provided here.
+1. Clone the repo
+2. Run `npm i` to install dependencies.
+3. Run `npm run dev` to launch the local development instance.
 
-> Own it & Make it your Own!
+### Environment variables
 
-## Team Documents
+1. MongoDb: Create a MongoDb Atlas account (in the cloud) (https://account.mongodb.com/account/login) and copy the connection string. You can also create a local instance of mongodb. Add the connection string to this environment variable `MONGODB_URI`. See (https://www.mongodb.com/docs/manual/reference/connection-string/).
 
-You may find these helpful as you work together to organize your project.
+2. Authentication: In your Google Cloud Console, setup Google Auth. Follow these instructions [Google Cloud Console](https://developers.google.com/identity/protocols/oauth2) and [NextAuth](https://authjs.dev/getting-started/providers/google). Remember to create the appopriate environment variables.
 
-- [Team Project Ideas](./docs/team_project_ideas.md)
-- [Team Decision Log](./docs/team_decision_log.md)
+3. Follow a similar process to setup [Github w/ NextAuth](https://authjs.dev/getting-started/providers/github?framework=next-js). Remember to create the appopriate environment variables.
 
-Meeting Agenda templates (located in the `/docs` directory in this repo):
-
-- Meeting - Voyage Kickoff --> ./docs/meeting-voyage_kickoff.docx
-- Meeting - App Vision & Feature Planning --> ./docs/meeting-vision_and_feature_planning.docx
-- Meeting - Sprint Retrospective, Review, and Planning --> ./docs/meeting-sprint_retrospective_review_and_planning.docx
-- Meeting - Sprint Open Topic Session --> ./docs/meeting-sprint_open_topic_session.docx
+4. Create a `AUTH_SECRET` environment variable and populate it with a string of your choosing. it's used with NextAuth to generate a secret. <br>
 
 ## Our Team
-
-Everyone on your team should add their name along with a link to their GitHub
-& optionally their LinkedIn profiles below. Do this in Sprint #1 to validate
-your repo access and to practice PR'ing with your team _before_ you start
-coding!
 
 - David Eastmond: [GitHub](https://github.com/davideastmond) / [LinkedIn](https://linkedin.com/in/david-eastmond-2783ab18a)
 - Abigail Swarth: [GitHub](https://github.com/abby-wankenobi) / [LinkedIn](www.linkedin.com/in/abigailswarth)
 - Sitora Everman [GitHub](https://github.com/sittora) / [LinkedIn](https://www.linkedin.com/in/sitora-everman/)
 - Janelle Lopp [GitHub](https://github.com/Jnicolle98) / [LinkedIn](https://www.linkedin.com/in/janelle-lopp/)
 - Sarita Kumari Jha [GitHub](https://github.com/Sarita1517) / [LinkedIn](https://www.linkedin.com/in/sjhabsc/)
-- Sierra Swaby [GitHub](https://github.com/starkspark) / [LinkedIn](https://www.linkedin.com/in/sierra-swaby)
