@@ -130,16 +130,20 @@ export default function Dialog({ loggedIn }: Props) {
     // If the rating is -1  then delete the rating
     if (rating === -1) {
       try {
-        await BookClient.deleteRating(bookData?.key!);
-        // Refresh the rating data
-        await getBookRatingData();
+        if (bookData) {
+          await BookClient.deleteRating(bookData.key!);
+          // Refresh the rating data
+          await getBookRatingData();
+        }
       } catch (error) {
         console.error("Failed to delete rating", (error as Error).message);
       }
     } else {
       try {
-        await BookClient.rateBook(bookData?.key!, rating);
-        await getBookRatingData();
+        if (bookData) {
+          await BookClient.rateBook(bookData.key!, rating);
+          await getBookRatingData();
+        }
       } catch (error) {
         console.error("failed to rate book", (error as Error).message);
       }
@@ -186,14 +190,20 @@ export default function Dialog({ loggedIn }: Props) {
                 {/* Ratings */}
                 <div id="averageRating">
                   <StarRating
-                    ratingProps={lumiBookRatingData!.averageRating}
+                    ratingProps={
+                      lumiBookRatingData
+                        ? lumiBookRatingData.averageRating!
+                        : null
+                    }
                     title="Average Rating"
                     readOnly
                   />
                 </div>
                 <div id="userRating">
                   <StarRating
-                    ratingProps={lumiBookRatingData!.userRating}
+                    ratingProps={
+                      lumiBookRatingData ? lumiBookRatingData.userRating! : null
+                    }
                     title="My Rating"
                     onRatingChanged={handleUpdateRating}
                   />

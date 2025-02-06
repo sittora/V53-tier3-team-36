@@ -34,5 +34,5 @@ export type OpenLibraryTrendingBooksAPIResponse = {
 };
 
 export type SearchBookList = {
-  docs: OpenLibraryBook[]
+  docs: Array<OpenLibraryBook>
 }
