@@ -186,14 +186,14 @@ export default function Dialog({ loggedIn }: Props) {
                 {/* Ratings */}
                 <div id="averageRating">
                   <StarRating
-                    ratingProps={lumiBookRatingData?.averageRating!}
+                    ratingProps={lumiBookRatingData!.averageRating}
                     title="Average Rating"
                     readOnly
                   />
                 </div>
                 <div id="userRating">
                   <StarRating
-                    ratingProps={lumiBookRatingData?.userRating!}
+                    ratingProps={lumiBookRatingData!.userRating}
                     title="My Rating"
                     onRatingChanged={handleUpdateRating}
                   />
