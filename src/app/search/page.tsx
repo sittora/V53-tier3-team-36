@@ -15,7 +15,7 @@ export default function Search() {
 
   useEffect(() => {
     const getSearchBooks = async () => {
-      const bookList = await OpenLibrary.getBooksBySearch(searchTerm);
+      const bookList = await OpenLibrary.getBooksBySearch(searchTerm as string);
       const { docs } = bookList;
       const booksToShow = docs.slice(0, 20);
       setBooks(booksToShow);

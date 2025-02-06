@@ -48,7 +48,7 @@ function renderStarRating(
   handleRatingChanged: (rating: number) => void
 ): JSX.Element[] {
   if (readOnly && currentRating === null) {
-    return [<span>No rating</span>];
+    return [<span key="no-rating">No rating</span>];
   }
   const elements = Array.from({ length: 5 }, (_, i) => (
     <span
