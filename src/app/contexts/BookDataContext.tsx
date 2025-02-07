@@ -58,7 +58,6 @@ const BookDataProvider = ({ children }: BookDataProvider) => {
       value={{
         wantToReadList,
         readList,
-
         getWantToReadList,
         getReadList,
         isLoading,
