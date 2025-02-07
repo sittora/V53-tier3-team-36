@@ -1,6 +1,7 @@
 import PageLayout from "@/components/pageLayout/PageLayout";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { BookDataProvider } from "./contexts/BookDataContext";
 import "./globals.css";
 import { NextAuthProvider } from "./providers/next-auth-provider";
 
@@ -30,7 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextAuthProvider>
-          <PageLayout>{children}</PageLayout>
+          <BookDataProvider>
+            <PageLayout>{children}</PageLayout>
+          </BookDataProvider>
         </NextAuthProvider>
       </body>
     </html>

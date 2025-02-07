@@ -4,9 +4,10 @@ import { AuthorData, BookAction, BookData } from "@/types/open-library";
 import { BookClient } from "app/clients/book-client";
 import { OpenLibrary } from "app/clients/open-library-client";
 import { UserClient } from "app/clients/user-client";
+import { BookDataContext } from "app/contexts/BookDataContext";
 import NextImg from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import StarRating from "../star-rating/StarRating";
 type Props = {
   loggedIn: boolean;
@@ -32,20 +33,26 @@ export default function Dialog({ loggedIn }: Props) {
 
   const extractedId = bookData?.key.split("/")[2];
 
+  const { getWantToReadList, getReadList } = useContext(BookDataContext);
+
   async function onBookActionTaken(olId: string, action: BookAction) {
     try {
       switch (action) {
         case "read":
           await BookClient.markRead(olId, new Date());
+          if (getReadList) getReadList();
           break;
         case "wantToRead":
           await BookClient.markWantToRead(olId);
+          if (getWantToReadList) getWantToReadList();
           break;
         case "remove_read":
           await BookClient.undoMarkRead(olId);
+          if (getReadList) getReadList();
           break;
         case "remove_wantToRead":
           await BookClient.undoMarkWantToRead(olId);
+          if (getWantToReadList) getWantToReadList();
           break;
       }
     } catch (error) {

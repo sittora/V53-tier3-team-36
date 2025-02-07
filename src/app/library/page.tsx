@@ -1,54 +1,72 @@
 "use client";
 import BookCard from "@/components/trendingBooks/BookCard";
 import { BookData } from "@/types/open-library";
-import { UserClient } from "app/clients/user-client";
+import { BookDataContext } from "app/contexts/BookDataContext";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 // Library
 export default function Library() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
-  const [wantToRead, setWantToRead] = useState<{
-    books: BookData[];
-    authorsDictionary: Record<string, string>;
-  } | null>(null);
-
-  useEffect(() => {
-    async function fetchWantToReadData() {
-      const data = await UserClient.getWantToRead();
-      setWantToRead(data);
-    }
-
-    fetchWantToReadData();
-  }, []);
+  const { wantToReadList, readList, isLoading } = useContext(BookDataContext);
 
   if (status === "unauthenticated") {
     return redirect("/");
   }
   return (
     <div>
-      <div id="want-to-read">
+      <div>
         {/* Want to read section */}
-        <h1 className="text-xl font-bold">Want to Read</h1>
-        <div className="flex flex-wrap">
-          {wantToRead?.books &&
-            wantToRead?.books.length > 0 &&
-            wantToRead?.books.map((book: BookData) => {
-              return (
-                <BookCard
-                  key={book!.key}
-                  title={book!.title}
-                  author={
-                    wantToRead.authorsDictionary[book!.authors[0].author!.key!]
-                  }
-                  id={book!.key}
-                  url={`/library/?`}
-                />
-              );
-            })}
-        </div>
+        <h2 className="text-xl font-bold">Want to Read</h2>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="flex flex-wrap">
+            {wantToReadList?.books &&
+              wantToReadList?.books.length > 0 &&
+              wantToReadList?.books.map((book: BookData) => {
+                return (
+                  <BookCard
+                    key={book!.key}
+                    title={book!.title}
+                    author={
+                      wantToReadList.authorsDictionary[
+                        book!.authors[0].author!.key!
+                      ]
+                    }
+                    id={book!.key}
+                    url={`/library/?`}
+                  />
+                );
+              })}
+          </div>
+        )}
+      </div>
+      <div className="mt-8 border-t-2 border-gray-200 pt-8">
+        <h2 className="text-xl font-bold">Read List</h2>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="flex flex-wrap">
+            {readList?.books &&
+              readList?.books.length > 0 &&
+              readList?.books.map((book: BookData) => {
+                return (
+                  <BookCard
+                    key={book!.key}
+                    title={book!.title}
+                    author={
+                      readList.authorsDictionary[book!.authors[0].author!.key!]
+                    }
+                    id={book!.key}
+                    url={`/library/?`}
+                  />
+                );
+              })}
+          </div>
+        )}
       </div>
     </div>
   );
