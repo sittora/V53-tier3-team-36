@@ -95,7 +95,7 @@ export async function PATCH(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   // Gets the authenticated user's want-to-read list
   const authSession = await auth();
   if (!authSession || !authSession.user)

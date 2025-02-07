@@ -59,7 +59,7 @@ async function fetchBookData(
 
   // We need to get the authors for the books, so we create an array of promises to fetch the author data
   const authorRequestPromises = bookResults.map((bookResult) => {
-    const authorKey = bookResult?.authors[0].author!;
+    const authorKey = bookResult!.authors[0].author;
     return OpenLibrary.getAuthorData(authorKey.key!);
   });
 
