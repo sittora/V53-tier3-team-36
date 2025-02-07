@@ -135,9 +135,7 @@ export async function GET() {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const readList = user.read;
-
-    return NextResponse.json(readList);
+    return NextResponse.json(user.read);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
