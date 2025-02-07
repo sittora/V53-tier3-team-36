@@ -1,7 +1,7 @@
 import {
   BookData,
-  SearchBookList,
   OpenLibraryTrendingBooksAPIResponse,
+  SearchBookList,
 } from "@/types/open-library";
 
 const OL_URL = "http://openlibrary.org";
@@ -23,7 +23,9 @@ export const OpenLibrary = {
       throw new Error("Failed to fetch book data");
     }
   },
-  getAuthorData: async (authorKey: string): Promise<{ name: string }> => {
+  getAuthorData: async (
+    authorKey: string
+  ): Promise<{ name: string; key: string }> => {
     const response = await fetch(`${OL_URL}${authorKey}.json`);
     if (response.ok) {
       return response.json();
