@@ -120,3 +120,29 @@ export async function PATCH(req: NextRequest) {
     );
   }
 }
+
+export async function GET() {
+  const authSession = await auth();
+
+  if (!authSession || !authSession.user)
+    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+
+  try {
+    await connectDb();
+
+    const user = await UserModel.findById(authSession.user.id);
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const readList = user.read;
+
+    return NextResponse.json(readList);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Failed to get read list" },
+      { status: 500 }
+    );
+  }
+}
