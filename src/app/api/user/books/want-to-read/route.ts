@@ -94,3 +94,24 @@ export async function PATCH(req: NextRequest) {
     );
   }
 }
+
+export async function GET() {
+  // Gets the authenticated user's want-to-read list
+  const authSession = await auth();
+  if (!authSession || !authSession.user)
+    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+
+  try {
+    const user = await UserModel.findById(authSession.user.id);
+    if (!user)
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+
+    return NextResponse.json(user.wantToRead);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Failed to get want to read list:" + (error as Error).message },
+      { status: 500 }
+    );
+  }
+}

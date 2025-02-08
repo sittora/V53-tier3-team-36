@@ -19,7 +19,7 @@ export type AuthorData = null | {
 export type OpenLibraryBook = {
   title: string;
   author_name: string | Array<string>;
-  key: number;
+  key: string;
   cover_i: string;
   first_publish_year: number;
 };
@@ -34,5 +34,5 @@ export type OpenLibraryTrendingBooksAPIResponse = {
 };
 
 export type SearchBookList = {
-  docs: Array<OpenLibraryBook>
-}
+  docs: Array<OpenLibraryBook>;
+};
