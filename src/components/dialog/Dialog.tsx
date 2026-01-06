@@ -164,23 +164,23 @@ export default function Dialog({ loggedIn }: Props) {
   const dialog = showDialog === "y" && (
     <dialog
       ref={dialogRef}
-      className="fixed top-50 left-50 -translate-x-50 -translate-y-50 z-10 rounded-xl backdrop:bg-gray-800/50"
+      className="fixed top-50 left-50 -translate-x-50 -translate-y-50 z-10 rounded-2xl backdrop:bg-primary-navy/60"
     >
-      <div className="md:w-[500px] max-w-fullbg-gray-200 flex flex-col border-[3px] border-lime-900 rounded-[12px]">
-        <div className="flex flex-row justify-end pt-2 px-5">
+      <div className="md:w-[500px] max-w-full bg-white flex flex-col border-2 border-primary-burgundy rounded-2xl shadow-card-hover">
+        <div className="flex flex-row justify-end pt-3 px-5">
           <button
             onClick={closeDialog}
-            className="mb-2 py-1 px-2 cursor-pointer rounded border w-8 h-8 font-bold text-black"
+            className="mb-2 py-1 px-2 cursor-pointer rounded-lg border border-border-light w-8 h-8 font-bold text-text-primary hover:bg-primary-burgundy hover:text-white hover:border-primary-burgundy transition-all"
           >
             X
           </button>
         </div>
-        <div className="px-5 pb-6">
+        <div className="px-6 pb-6">
           {loading && <span>Loading...</span>}
           {bookData && authorData && (
             <div>
               <div className="flex-col md:flex md:flex-row">
-                <div className="mb-4 shadow-md w-fit min-w-[150px] min-h-[200px]">
+                <div className="mb-4 shadow-card rounded-xl overflow-hidden w-fit min-w-[150px] min-h-[200px]">
                   <NextImg
                     src={`https://covers.openlibrary.org/w/olid/${extractedId}.jpg`}
                     alt="book cover"
@@ -189,7 +189,7 @@ export default function Dialog({ loggedIn }: Props) {
                   />
                 </div>
                 <div>
-                  <div className="my-2 md:ml-4 md:mt-0">
+                  <div className="my-2 md:ml-4 md:mt-0 bg-secondary-cream p-4 rounded-xl">
                     {/* Ratings */}
                     <div id="averageRating">
                       <StarRating
@@ -221,13 +221,13 @@ export default function Dialog({ loggedIn }: Props) {
                       {!isOnUserReadList() ? (
                         <button
                           onClick={() => handleBookActionTaken("read")}
-                          className="bg-green-500 py-1 px-2 rounded border-none mr-2 mb-2 w-[225px]"
+                          className="bg-primary-navy text-white py-2 px-4 rounded-xl border-none mr-2 mb-2 w-[225px] font-medium hover:bg-primary-burgundy transition-all shadow-sm"
                         >
                           Add to Read
                         </button>
                       ) : (
                         <button
-                          className="bg-orange-500 py-1 px-2 rounded border-none mr-2 mb-2 w-[225px]"
+                          className="bg-accent-copper text-white py-2 px-4 rounded-xl border-none mr-2 mb-2 w-[225px] font-medium hover:bg-primary-burgundy transition-all shadow-sm"
                           onClick={() => handleBookActionTaken("remove_read")}
                         >
                           Remove from read List
@@ -236,13 +236,13 @@ export default function Dialog({ loggedIn }: Props) {
                       {!isOnWantToReadList() ? (
                         <button
                           onClick={() => handleBookActionTaken("wantToRead")}
-                          className="bg-green-500 py-1 px-2 rounded border-none w-[225px] mb-4"
+                          className="bg-primary-navy text-white py-2 px-4 rounded-xl border-none w-[225px] mb-4 font-medium hover:bg-primary-burgundy transition-all shadow-sm"
                         >
                           Add to Want To Read
                         </button>
                       ) : (
                         <button
-                          className="bg-orange-500 py-1 px-2 rounded border-none mr-2 w-[225px] mb-4"
+                          className="bg-accent-copper text-white py-2 px-4 rounded-xl border-none mr-2 w-[225px] mb-4 font-medium hover:bg-primary-burgundy transition-all shadow-sm"
                           onClick={() =>
                             handleBookActionTaken("remove_wantToRead")
                           }
@@ -254,19 +254,19 @@ export default function Dialog({ loggedIn }: Props) {
                   )}
                 </div>
               </div>
-              <h1 className="text-3xl font-bold">{bookData.title}</h1>
-              <h4 className="text-lg italic pb-3">{authorData.name}</h4>
-              <div className="pb-3">
+              <h1 className="text-3xl font-display font-bold text-text-primary mt-4">{bookData.title}</h1>
+              <h4 className="text-lg italic pb-3 text-text-secondary">{authorData.name}</h4>
+              <div className="pb-3 text-text-muted">
                 {bookData.subjects
                   ?.slice(0, 5)
                   .map((subject: string, i: number) => (
-                    <span key={i}>
+                    <span key={i} className="text-sm">
                       {subject}
                       {i !== 4 && ","}{" "}
                     </span>
                   ))}
               </div>
-              <span>
+              <span className="text-text-secondary leading-relaxed">
                 {bookData.description &&
                   (typeof bookData.description === "string"
                     ? bookData.description

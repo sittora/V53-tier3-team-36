@@ -44,10 +44,10 @@ export default function StaffPicks() {
 
   return (
     <div className="pt-[90px]">
-      <div className="text-black text-3xl font-lumiFontLato pb-3">
+      <div className="text-text-primary text-3xl font-display font-semibold pb-4 section-title">
         Weekly Staff Picks
       </div>
-      <div className="p-2">
+      <div className="p-4 mt-4">
         {loading ? (
           <div
             style={{

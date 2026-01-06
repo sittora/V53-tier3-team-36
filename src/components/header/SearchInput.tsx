@@ -17,8 +17,8 @@ export default function SearchInput() {
     <input
       type="text"
       id="search-navbar"
-      className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-      placeholder="Search..."
+      className="block w-[280px] lg:w-[320px] h-[48px] py-3 px-5 ps-12 text-sm text-text-primary border border-border-light rounded-full bg-white focus:ring-2 focus:ring-accent-gold focus:border-accent-gold focus:shadow-lg focus:scale-[1.02] placeholder-text-muted/70 transition-all duration-300 ease-out shadow-sm hover:shadow-md hover:border-border-medium"
+      placeholder="Search books..."
       onChange={(e) => setSearchTerm(e.target.value)}
       onKeyDown={(e) => onEnter(e)}
     />

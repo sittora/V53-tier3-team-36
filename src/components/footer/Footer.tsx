@@ -2,13 +2,13 @@ import Link from "next/link";
 
 const socialLinks = (name: string, github: string, linkedin: string) => {
   return (
-    <div className="flex justify-center">
-      <span>{name}</span>
+    <div className="flex justify-center items-center">
+      <span className="text-text-secondary">{name}</span>
       <div className="flex items-center">
         <a
           href={github}
           target="_blank"
-          className="text-gray-400 hover:text-gray-900 dark:hover:text-white pl-2"
+          className="text-text-muted hover:text-primary-burgundy pl-2 transition-all"
         >
           <svg
             className="w-4 h-4"
@@ -28,7 +28,7 @@ const socialLinks = (name: string, github: string, linkedin: string) => {
         <a
           href={linkedin}
           target="_blank"
-          className="text-gray-400 hover:text-gray-900 dark:hover:text-white pl-2"
+          className="text-text-muted hover:text-primary-burgundy pl-2 transition-all"
         >
           <svg
             className="w-4 h-4"
@@ -49,48 +49,48 @@ const socialLinks = (name: string, github: string, linkedin: string) => {
 
 export default function Footer() {
   return (
-    <footer className="bg-background">
+    <footer className="bg-secondary-cream border-t border-border-light mt-12">
       <div className="mx-auto w-full max-w-screen-xl">
-        <div className="grid gap-8 px-4 pt-6 pb-3 md:grid-cols-3 sm:grid-cols-1">
+        <div className="grid gap-8 px-4 pt-8 pb-4 md:grid-cols-3 sm:grid-cols-1">
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white text-center">
+            <h2 className="mb-6 text-lg font-display font-semibold text-primary-burgundy uppercase text-center">
               <Link href="/">Luminaria</Link>
             </h2>
           </div>
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white text-center">
+            <h2 className="mb-6 text-sm font-semibold text-text-primary uppercase text-center tracking-wide">
               Our Team
             </h2>
-            <ul className="text-gray-500 dark:text-gray-400 font-medium">
-              <li className="mb-4">
+            <ul className="text-text-secondary font-medium space-y-3">
+              <li className="">
                 {socialLinks(
                   "David Eastmond",
                   "https://github.com/davideastmond",
                   "https://linkedin.com/in/david-eastmond-2783ab18a"
                 )}
               </li>
-              <li className="mb-4">
+              <li className="">
                 {socialLinks(
                   "Abigail Swarth",
                   "https://github.com/abby-wankenobi",
                   "https://www.linkedin.com/in/abigailswarth/"
                 )}
               </li>
-              <li className="mb-4">
+              <li className="">
                 {socialLinks(
                   "Sitora Everman",
                   "https://github.com/sittora",
                   "https://www.linkedin.com/in/sitora-everman/"
                 )}
               </li>
-              <li className="mb-4">
+              <li className="">
                 {socialLinks(
                   "Janelle Lopp",
                   "https://github.com/Jnicolle98",
                   "https://www.linkedin.com/in/janelle-lopp/"
                 )}
               </li>
-              <li className="mb-4">
+              <li className="">
                 {socialLinks(
                   "Sarita Kumari Jha",
                   "https://github.com/Sarita1517",
@@ -100,19 +100,20 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white text-center">
+            <h2 className="mb-6 text-sm font-semibold text-text-primary uppercase text-center tracking-wide">
               <a
                 href="https://github.com/chingu-voyages/V53-tier3-team-36"
                 target="_blank"
+                className="hover:text-primary-burgundy transition-all"
               >
                 Github
               </a>
             </h2>
           </div>
         </div>
-        <div className="px-4 pb-6 pt-1 dark:bg-gray-700 md:flex md:items-center md:justify-between">
-          <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">
-            © 2025 <a href="https://flowbite.com/">Luminaria</a>
+        <div className="px-4 pb-6 pt-4 border-t border-border-light md:flex md:items-center md:justify-between">
+          <span className="text-sm text-text-muted sm:text-center">
+            © 2025 <a href="/" className="hover:text-primary-burgundy transition-all">Luminaria</a> — Your Personal Library
           </span>
         </div>
       </div>

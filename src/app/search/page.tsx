@@ -43,7 +43,7 @@ export default function Search() {
       {loading ? (
         <BookCardLoading />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-2">
           {books?.map((book: OpenLibraryBook) => {
             const author = Array.isArray(book.author_name)
               ? book.author_name[0]
