@@ -113,7 +113,7 @@ export default function Footer() {
         </div>
         <div className="px-4 pb-6 pt-4 border-t border-border-light md:flex md:items-center md:justify-between">
           <span className="text-sm text-text-muted sm:text-center">
-            © 2025 <a href="/" className="hover:text-primary-burgundy transition-all">Luminaria</a> — Your Personal Library
+            © 2025 <Link href="/" className="hover:text-primary-burgundy transition-all">Luminaria</Link> — Your Personal Library
           </span>
         </div>
       </div>
