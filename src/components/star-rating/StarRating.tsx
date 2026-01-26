@@ -34,12 +34,12 @@ export default function StarRating({
     onRatingChanged?.(rating);
   };
   return (
-    <div>
-      <span className="font-bold mr-2">{title}:</span>
+    <div className="flex items-center flex-wrap">
+      <span className="font-semibold mr-2 text-text-primary">{title}:</span>
       {...renderStarRating(currentRating, readOnly, handleRatingChanged)}
       {!readOnly && ratingProps && (
         <button
-          className="text-sm text-red-600 ml-2"
+          className="text-sm text-primary-burgundy ml-2 hover:text-accent-copper transition-all font-medium"
           onClick={() => handleRatingChanged(-1)}
         >
           Clear

@@ -18,14 +18,14 @@ export default function Library() {
     return redirect("/");
   }
   return (
-    <div className="pt-6">
+    <div className="pt-6 w-full">
       <div>
         {/* Want to read section */}
-        <h2 className="text-xl font-bold text-black">Want to Read</h2>
+        <h2 className="text-2xl font-display font-semibold text-text-primary section-title">Want to Read</h2>
         {isLoading ? (
           <BookCardLoading />
         ) : (
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap mt-4">
             {wantToReadList?.books &&
               (wantToReadList?.books.length > 0 ? (
                 wantToReadList?.books.map((book: BookData) => {
@@ -45,9 +45,9 @@ export default function Library() {
                   );
                 })
               ) : (
-                <div className="mt-2">
+                <div className="mt-4 text-text-secondary bg-secondary-cream p-4 rounded-xl">
                   No books in your Want To Read list.{" "}
-                  <Link href="/" className="underline">
+                  <Link href="/" className="text-primary-burgundy underline hover:text-primary-navy transition-all">
                     Browse books to add to your list.
                   </Link>
                 </div>
@@ -55,12 +55,12 @@ export default function Library() {
           </div>
         )}
       </div>
-      <div className="mt-8 border-t-2 border-gray-200 pt-8">
-        <h2 className="text-xl font-bold text-black">Read List</h2>
+      <div className="mt-10 border-t-2 border-border-light pt-10">
+        <h2 className="text-2xl font-display font-semibold text-text-primary section-title">Read List</h2>
         {isLoading ? (
           <BookCardLoading />
         ) : (
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap mt-4">
             {readList?.books &&
               (readList?.books.length > 0 ? (
                 readList?.books.map((book: BookData) => {
@@ -80,9 +80,9 @@ export default function Library() {
                   );
                 })
               ) : (
-                <div className="mt-2">
+                <div className="mt-4 text-text-secondary bg-secondary-cream p-4 rounded-xl">
                   No books on your Read list yet.{" "}
-                  <Link href="/" className="underline">
+                  <Link href="/" className="text-primary-burgundy underline hover:text-primary-navy transition-all">
                     Browse books to add to your list.
                   </Link>
                 </div>

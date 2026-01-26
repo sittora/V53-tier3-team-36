@@ -25,10 +25,10 @@ export default function TrendingBooks() {
 
   return (
     <div className="pt-[20px]">
-      <div className="text-3xl font-lumiFontLato pb-3 text-black">
+      <div className="text-3xl font-display font-semibold pb-4 text-text-primary section-title">
         Trending Books
       </div>
-      <div className="p-2 bg-foreground rounded-[12px] shadow-md">
+      <div className="p-4 bg-primary-burgundy rounded-2xl shadow-card mt-4">
         {loading ? (
           <BookCardLoading />
         ) : (

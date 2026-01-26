@@ -17,27 +17,27 @@ export default function BookCard({
 
   return (
     <Link href={`${url}showDialog=y&work=${id}`} className="">
-      <div className="flex flex-col m-4 max-w-[170px]" key={id}>
-        <div className="rounded-[20px] overflow-hidden">
+      <div className="flex flex-col m-4 max-w-[170px] book-card-hover" key={id}>
+        <div className="rounded-2xl overflow-hidden shadow-card">
           {/* image section */}
           <img
             src={`https://covers.openlibrary.org/w/olid/${extractedId}.jpg`}
             alt="book cover"
-            className="rounded-[20px] w-[160px] h-[240px] border border-gray-700 shadow-lg"
+            className="rounded-2xl w-[160px] h-[240px] border border-border-light object-cover"
           />
         </div>
         <span
-          className={`pt-2 text-sm ${
-            type === "light" ? "text-amber-50" : "text-black"
-          } font-lumiFontChivo`}
+          className={`pt-3 text-sm font-medium ${
+            type === "light" ? "text-secondary-ivory" : "text-text-primary"
+          } font-body line-clamp-2`}
         >
           {title}
         </span>
         {author ? (
           <span
             className={`text-sm ${
-              type === "light" ? "text-amber-500" : "text-grey-800"
-            }`}
+              type === "light" ? "text-accent-gold" : "text-text-secondary"
+            } font-body`}
           >
             by {author}
           </span>

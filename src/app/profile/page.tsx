@@ -18,27 +18,27 @@ export default function Profile() {
   }, []);
   if (status === "unauthenticated") return redirect("/");
   return (
-    <div className="flex flex-col items-center w-full p-4">
-      <h1 className="font-bold text-lg">
+    <div className="flex flex-col items-center w-full p-6">
+      <h1 className="font-display font-bold text-2xl text-text-primary">
         Welcome {currentUser?.name ?? "Anonymous"}
       </h1>
 
       {currentUser?.imageUrl && (
         <NextImg
-          className="rounded-full border border-black h-16 w-16 my-4"
+          className="rounded-full border-2 border-primary-burgundy h-20 w-20 my-6 shadow-card"
           src={currentUser?.imageUrl}
           alt="User image"
-          width={32}
-          height={32}
+          width={80}
+          height={80}
         />
       )}
 
-      <div className="mt-4">
-        <p>
-          <strong>Name:</strong> {currentUser?.name ?? "N/A"}
+      <div className="mt-4 bg-secondary-cream p-6 rounded-2xl shadow-card">
+        <p className="text-text-secondary">
+          <strong className="text-text-primary">Name:</strong> {currentUser?.name ?? "N/A"}
         </p>
-        <p>
-          <strong>Email:</strong> {currentUser?.email ?? "N/A"}
+        <p className="text-text-secondary mt-2">
+          <strong className="text-text-primary">Email:</strong> {currentUser?.email ?? "N/A"}
         </p>
       </div>
 
@@ -46,9 +46,9 @@ export default function Profile() {
         action={async () => {
           await signOut();
         }}
-        className="mt-4"
+        className="mt-6"
       >
-        <button className="p-2 bg-red-500 text-white rounded">Sign out</button>
+        <button className="px-6 py-2 bg-primary-burgundy text-white rounded-xl font-medium hover:bg-primary-navy transition-all shadow-sm">Sign out</button>
       </form>
       {currentUser && <ProfileForm user={currentUser} />}
     </div>
@@ -59,19 +59,26 @@ function ProfileForm({ user }: { user: Partial<User> }) {
   return (
     <form
       action={updateProfile}
-      className="mt-8 flex flex-col gap-4 w-full max-w-md"
+      className="mt-10 flex flex-col gap-4 w-full max-w-md bg-white p-6 rounded-2xl shadow-card border border-border-light"
     >
-      <label htmlFor="bio">Bio</label>
-      <textarea id="bio" name="bio" defaultValue={user.bio ?? ""} rows={4} />
+      <label htmlFor="bio" className="text-text-primary font-medium">Bio</label>
+      <textarea 
+        id="bio" 
+        name="bio" 
+        defaultValue={user.bio ?? ""} 
+        rows={4} 
+        className="border border-border-light rounded-xl p-3 focus:ring-2 focus:ring-accent-gold focus:border-accent-gold transition-all text-text-primary"
+      />
 
-      <label htmlFor="hashtags">Hashtags (comma separated)</label>
+      <label htmlFor="hashtags" className="text-text-primary font-medium">Hashtags (comma separated)</label>
       <input
         id="hashtags"
         name="hashtags"
         defaultValue={user.hashtags?.join(", ") ?? ""}
+        className="border border-border-light rounded-xl p-3 focus:ring-2 focus:ring-accent-gold focus:border-accent-gold transition-all text-text-primary"
       />
 
-      <button type="submit" className="p-2 bg-blue-600 text-white rounded">
+      <button type="submit" className="px-6 py-3 bg-primary-navy text-white rounded-xl font-medium hover:bg-primary-burgundy transition-all shadow-sm mt-2">
         Update Profile
       </button>
     </form>
