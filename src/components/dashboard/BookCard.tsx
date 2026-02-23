@@ -23,6 +23,7 @@ export default function BookCard({
           <img
             src={`https://covers.openlibrary.org/w/olid/${extractedId}.jpg`}
             alt="book cover"
+            loading="lazy"
             className="rounded-2xl w-[160px] h-[240px] border border-border-light object-cover"
           />
         </div>
