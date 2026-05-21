@@ -26,7 +26,7 @@ export const OpenLibrary = {
     try {
       const response = await fetch(`${OL_URL}/trending/daily.json?page=1`);
       if (response.ok) {
-        return response.json();
+        return await response.json();
       }
     } catch (e) {
       console.warn("Open Library API unreachable, using fallback data");

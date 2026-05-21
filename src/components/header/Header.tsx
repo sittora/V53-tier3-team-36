@@ -181,7 +181,7 @@ export default function Header({ handleLogin, isLoggedIn }: Props) {
             />
           </svg>
         </div>
-        <SearchInput />
+        <SearchInput id="search-navbar-mobile" />
       </div>
     </nav>
   );
